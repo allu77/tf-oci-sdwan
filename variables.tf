@@ -72,9 +72,26 @@ variable subnet_private_cidr {
 
 // Overridable defaults
 
-variable mp_listing_id { 
+variable sdwan_listing_id { 
   type        = string
   description = "OCID of the Oracle SD-WAN Edge listing on OCI marketplace"
   default = "ocid1.appcataloglisting.oc1..aaaaaaaaxzf5m5xhk5rwovcq2237qrr2nsp6jfxm4posvpv4rwlm74zn6fba"
 }
 
+variable sdwan_listing_version { 
+  type        = string
+  description = "Software version of the SD-WAN node to deploy"
+  default = "8.2.1.0.0"
+}
+
+variable sdwan_availability_domain {
+  type        = number
+  description = "Availabily domain where Oracle SD-WAN Edge will be delivered - Index withing the available ADs, starting from 0"
+  default     = 0
+}
+
+variable sdwan_vm_shape {
+  type        = string
+  description = "VM Shape for the SD-WAN Edge isntance"
+  default     = "VM.Standard2.4"
+}

@@ -62,7 +62,6 @@ resource "oci_core_network_security_group_security_rule" "mgmt_ssh" {
     protocol                    = "6"
 
     destination                 = var.subnet_mgmt_cidr
-    destination_type            = "CIDR_BLOCK"
 
     source                      = "0.0.0.0/0"
     source_type                 = "CIDR_BLOCK"
@@ -87,7 +86,6 @@ resource "oci_core_network_security_group_security_rule" "mgmt_http" {
     protocol                    = "6"
 
     destination                 = var.subnet_mgmt_cidr
-    destination_type            = "CIDR_BLOCK"
 
     source                      = "0.0.0.0/0"
     source_type                 = "CIDR_BLOCK"
@@ -112,7 +110,6 @@ resource "oci_core_network_security_group_security_rule" "mgmt_https" {
     protocol                    = "6"
 
     destination                 = var.subnet_mgmt_cidr
-    destination_type            = "CIDR_BLOCK"
 
     source                      = "0.0.0.0/0"
     source_type                 = "CIDR_BLOCK"
@@ -147,7 +144,6 @@ resource "oci_core_network_security_group_security_rule" "public_trp_in" {
     protocol                    = "17"
 
     destination                 = "0.0.0.0/0"
-    destination_type            = "CIDR_BLOCK"
 
     source                      = var.subnet_public_cidr
     source_type                 = "CIDR_BLOCK"
@@ -176,7 +172,6 @@ resource "oci_core_network_security_group_security_rule" "public_trp_out" {
     destination_type            = "CIDR_BLOCK"
 
     source                      = "0.0.0.0/0"
-    source_type                 = "CIDR_BLOCK"
 
     stateless                   = true
 
@@ -190,14 +185,11 @@ resource "oci_core_network_security_group_security_rule" "public_trp_out" {
 }
 
 
-
-
-
-
-
-
-
-
+resource "oci_core_network_security_group" "private" {
+    compartment_id  = var.compartment_ocid
+    vcn_id          = local.vcn_ocid
+    display_name    = "sdwan-nsg-private"
+}
 
 
 

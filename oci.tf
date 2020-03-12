@@ -6,3 +6,11 @@ provider "oci" {
   region            = var.region
 }
 
+
+data "oci_identity_availability_domains" "oci_ads" {
+    compartment_id = var.compartment_ocid
+}
+
+locals {
+  sdwan_availability_domain = data.oci_identity_availability_domains.oci_ads.availability_domains[var.sdwan_availability_domain].name
+}
