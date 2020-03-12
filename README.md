@@ -1,2 +1,2 @@
 # tf-oci-sdwan
-Terraforming Oralce SD-WAN on Oracle Cloud Ifrastructure
+Terraforming Oracle SD-WAN on Oracle Cloud Infrastructure
