@@ -79,3 +79,7 @@ resource "oci_core_vnic_attachment" "private_vnic" {
     }
     instance_id = oci_core_instance.sdwan_edge.id
 }
+
+output "talariuser-password" {
+  value = format("talari-%s", regex("^ocid[^\\.]?\\.instance\\.[^\\.]+\\.[^\\.]+\\.(........)", oci_core_instance.sdwan_edge.id)[0])
+}
