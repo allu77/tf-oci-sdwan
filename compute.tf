@@ -19,10 +19,6 @@ resource "oci_core_app_catalog_subscription" "sdwan_image_subscription" {
   }
 }
 
-output "you_are_accepting_the_following_terms_of_use" {
-  value = oci_core_app_catalog_listing_resource_version_agreement.sdwan_agreement.oracle_terms_of_use_link
-}
-
 // Then we subscribe to the image with the desired version to get this avilable to deploy a compute instance
 
 data "oci_core_app_catalog_subscriptions" "sdwan_image_subscription" {
@@ -42,6 +38,7 @@ resource "oci_core_instance" "sdwan_edge" {
     availability_domain   = local.sdwan_availability_domain
     compartment_id        = var.compartment_ocid
     shape                 = var.sdwan_vm_shape
+    display_name          = "sdwan-edge"
 
     create_vnic_details {
         subnet_id     = oci_core_subnet.mgmt.id
@@ -80,6 +77,12 @@ resource "oci_core_vnic_attachment" "private_vnic" {
     instance_id = oci_core_instance.sdwan_edge.id
 }
 
-output "talariuser-password" {
-  value = format("talari-%s", regex("^ocid[^\\.]?\\.instance\\.[^\\.]+\\.[^\\.]+\\.(........)", oci_core_instance.sdwan_edge.id)[0])
+// Looks like IPs are not returned as attribute with oci_core_vnic_attachment, getting them as data
+
+data "oci_core_vnic" "public_vnic_data" {
+  vnic_id     = oci_core_vnic_attachment.public_vnic.vnic_id
+}
+
+data "oci_core_vnic" "private_vnic_data" {
+  vnic_id     = oci_core_vnic_attachment.private_vnic.vnic_id
 }
