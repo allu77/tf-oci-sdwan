@@ -87,5 +87,6 @@ data "oci_core_vnic" "public_vnic_data" {
 }
 
 data "oci_core_vnic" "private_vnic_data" {
+  count = var.sdwan_dedicated_private_vnic ? 1 : 0
   vnic_id     = var.sdwan_dedicated_private_vnic ? oci_core_vnic_attachment.private_vnic[0].vnic_id : "xxxx"
 }
