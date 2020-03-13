@@ -194,11 +194,6 @@ resource "oci_core_network_security_group" "private" {
 
 
 
-
-
-
-
-
 resource "oci_core_subnet" "mgmt" {
     cidr_block      = var.subnet_mgmt_cidr
     compartment_id  = var.compartment_ocid
@@ -216,6 +211,8 @@ resource "oci_core_subnet" "public" {
 }
 
 resource "oci_core_subnet" "private" {
+    count          = var.sdwan_dedicated_private_vnic ? 1 : 0
+
     cidr_block      = var.subnet_private_cidr
     compartment_id  = var.compartment_ocid
     vcn_id          = local.vcn_ocid

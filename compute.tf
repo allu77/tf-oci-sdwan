@@ -59,16 +59,19 @@ resource "oci_core_instance" "sdwan_edge" {
 
 resource "oci_core_vnic_attachment" "public_vnic" {
     create_vnic_details {
-        subnet_id     = oci_core_subnet.public.id
-        display_name  = "sdwan_vnic_public"
-        nsg_ids       = [ oci_core_network_security_group.public.id ]
+        subnet_id               = oci_core_subnet.public.id
+        display_name            = "sdwan_vnic_public"
+        nsg_ids                 = [ oci_core_network_security_group.public.id ]
+        skip_source_dest_check  = ! var.sdwan_dedicated_private_vnic // If dedicated private VNIC exists, this needs to be false since routing happens on the private vNIC
     }
     instance_id = oci_core_instance.sdwan_edge.id
 }
 
 resource "oci_core_vnic_attachment" "private_vnic" {
+    count          = var.sdwan_dedicated_private_vnic ? 1 : 0
+
     create_vnic_details {
-        subnet_id               = oci_core_subnet.private.id
+        subnet_id               = oci_core_subnet.private[0].id
         display_name            = "sdwan_vnic_private"
         nsg_ids                 = [ oci_core_network_security_group.private.id ]
         skip_source_dest_check  = true
@@ -84,5 +87,5 @@ data "oci_core_vnic" "public_vnic_data" {
 }
 
 data "oci_core_vnic" "private_vnic_data" {
-  vnic_id     = oci_core_vnic_attachment.private_vnic.vnic_id
+  vnic_id     = var.sdwan_dedicated_private_vnic ? oci_core_vnic_attachment.private_vnic[0].vnic_id : "xxxx"
 }

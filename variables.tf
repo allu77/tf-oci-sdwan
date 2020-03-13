@@ -92,6 +92,12 @@ variable sdwan_availability_domain {
 
 variable sdwan_vm_shape {
   type        = string
-  description = "VM Shape for the SD-WAN Edge isntance"
+  description = "VM Shape for the SD-WAN Edge instance"
   default     = "VM.Standard2.4"
+}
+
+variable sdwan_dedicated_private_vnic {
+  type        = bool
+  description = "Whether to have a 2 tiers network layout (default) or a single tier (i.e. public and private on the same interface)"
+  default     = true
 }
