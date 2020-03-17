@@ -143,10 +143,10 @@ resource "oci_core_network_security_group_security_rule" "public_trp_in" {
     direction                   = "INGRESS"
     protocol                    = "17"
 
-    destination                 = "0.0.0.0/0"
+    source                      = "0.0.0.0/0"
 
-    source                      = var.subnet_public_cidr
-    source_type                 = "CIDR_BLOCK"
+    destination                 = var.subnet_public_cidr
+    destination_type            = "CIDR_BLOCK"
 
     stateless                   = true
 
@@ -168,10 +168,10 @@ resource "oci_core_network_security_group_security_rule" "public_trp_out" {
     direction                   = "EGRESS"
     protocol                    = "17"
 
-    destination                 = var.subnet_public_cidr
-    destination_type            = "CIDR_BLOCK"
+    destination                 = "0.0.0.0/0"
 
-    source                      = "0.0.0.0/0"
+    source                      = var.subnet_public_cidr
+    source_type                 = "CIDR_BLOCK"
 
     stateless                   = true
 
