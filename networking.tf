@@ -144,9 +144,9 @@ resource "oci_core_network_security_group_security_rule" "public_trp_in" {
     protocol                    = "17"
 
     source                      = "0.0.0.0/0"
+    source_type                 = "CIDR_BLOCK"
 
     destination                 = var.subnet_public_cidr
-    destination_type            = "CIDR_BLOCK"
 
     stateless                   = true
 
@@ -169,9 +169,9 @@ resource "oci_core_network_security_group_security_rule" "public_trp_out" {
     protocol                    = "17"
 
     destination                 = "0.0.0.0/0"
+    destination_type            = "CIDR_BLOCK"
 
     source                      = var.subnet_public_cidr
-    source_type                 = "CIDR_BLOCK"
 
     stateless                   = true
 
